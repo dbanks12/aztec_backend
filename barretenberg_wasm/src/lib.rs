@@ -72,7 +72,7 @@ impl Barretenberg {
         return memory.uint8view().to_vec()[start as usize..end].to_vec();
 
         #[cfg(not(feature = "js"))]
-        return memory.view()[start as usize..end]
+        return memory.view()[start..end]
             .iter()
             .map(|cell: &Cell<u8>| cell.get())
             .collect();
@@ -261,8 +261,11 @@ fn logstr(ptr: i32) {
 }
 
 #[test]
-fn foo() {
+fn smoke() {
     let mut b = Barretenberg::new();
-    let (x, y) = b.encrypt(vec![acvm::FieldElement::zero(), acvm::FieldElement::one()]);
+    let (x, y) = b.encrypt(vec![
+        common::acvm::FieldElement::zero(),
+        common::acvm::FieldElement::one(),
+    ]);
     dbg!(x.to_hex(), y.to_hex());
 }
